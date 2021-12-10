@@ -65,7 +65,7 @@
 , writeShellScriptBin
 , writeTextDir }:
 
-assert (lib.assertMsg (builtins.isPath doomPrivateDir) "doomPrivateDir must be a path");
+assert (lib.assertMsg ((builtins.isPath doomPrivateDir) || (lib.isDerivation doomPrivateDir)) "doomPrivateDir must be a path or a derivation");
 
 let
   flake = import ./flake-compat-helper.nix { src=./.; };
