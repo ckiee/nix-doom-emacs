@@ -173,13 +173,19 @@ let
   doom-emacs = stdenv.mkDerivation rec {
     name = "doom-emacs";
     src = doomSrc;
+
     patches = [
       (substituteAll {
         src = ./nix-integration.patch;
         local = doomLocal;
       })
     ];
-    buildPhase = ":";
+
+    buildPhase = ''
+      patchShebangs bin
+      # Remove the windows wrapper for the CLI so the build doesn't fail
+      rm bin/doom.cmd
+    '';
     installPhase = ''
       mkdir -p $out
       cp -r * $out
@@ -234,6 +240,11 @@ emacs.overrideAttrs (esuper:
 
       for prog in $out/bin/*; do
           wrapEmacs $prog
+      done
+
+      # Doom comes with some CLIs (org-tangle, org-capture, doom)
+      for prog in ${doom-emacs}/bin/*; do
+          makeWrapper $prog $out/bin/"$(basename $prog)" --prefix PATH : $out/bin
       done
 
       if [[ -e $out/Applications ]]; then
