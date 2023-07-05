@@ -1,0 +1,24 @@
+From dc381f1d6d1d3fbdb89826f02519d760bcd16ae3 Mon Sep 17 00:00:00 2001
+From: ckie <git-525ff67@ckie.dev>
+Date: Sat, 29 Jan 2022 18:45:54 +0200
+Subject: [PATCH] don't try to find git
+
+---
+ straight.el | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/straight.el b/straight.el
+index 07894ce..4708a34 100644
+--- a/straight.el
++++ b/straight.el
+@@ -53,7 +53,6 @@
+   (or (executable-find name)
+       (error "Straight unable to find required executable: %S" name)))
+ 
+-(straight--executable-find "git")
+ 
+ ;;;; Libraries
+ 
+-- 
+2.34.1
+
