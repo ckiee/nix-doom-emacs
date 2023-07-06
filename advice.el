@@ -21,16 +21,16 @@
 (defun nix-straight-inhibit-kill-emacs (arg)
         (message "[nix-doom-emacs] Inhibiting (kill-emacs)"))
 
-        (advice-add 'nix-straight-get-used-packages
-                :around (lambda (ns-fn &rest r)
-                        (message "[nix-doom-emacs] Advising doom to keep it alive...")
-                        (advice-add 'doom-autoloads-reload
-                                        :override (lambda (&optional file force-p)
-                                                (message "[nix-doom-emacs] Skipping generating autoloads...")))
-                        (advice-add 'kill-emacs
-                                        :override #'nix-straight-inhibit-kill-emacs)
-                        (apply ns-fn r)
-                        (advice-remove 'kill-emacs 'nix-straight-inhibit-kill-emacs)))
+(advice-add 'nix-straight-get-used-packages
+        :around (lambda (ns-fn &rest r)
+                (message "[nix-doom-emacs] Advising doom to keep it alive...")
+                (advice-add 'doom-autoloads-reload
+                                :override (lambda (&optional file force-p)
+                                        (message "[nix-doom-emacs] Skipping generating autoloads...")))
+                (advice-add 'kill-emacs
+                                :override #'nix-straight-inhibit-kill-emacs)
+                (apply ns-fn r)
+                (advice-remove 'kill-emacs 'nix-straight-inhibit-kill-emacs)))
 
 (advice-add 'y-or-n-p
             :override (lambda (q)
