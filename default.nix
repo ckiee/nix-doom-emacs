@@ -128,7 +128,7 @@ let
 
   # Stage 2: install dependencies and byte-compile prepared source
   doomLocal = let
-    straight-env = pkgs.callPackage (lock "nix-straight") {
+    straight-env = pkgs.callPackage ./straight {
       emacsPackages = if bundledPackages then
         let epkgs = emacs-overlay.emacsPackagesFor emacsPackages.emacs;
         in epkgs.overrideScope' overrides
@@ -143,14 +143,15 @@ let
       emacsInitFile = "${doomSrc}/bin/doom";
     };
 
-    packages = straight-env.packageList (super: {
+    packageOverrides = super: {
       phases = [ "installPhase" ];
       nativeBuildInputs = [ git ];
       preInstall = ''
         export DOOMDIR=${doomPackageDir}
         export DOOMLOCALDIR=$(mktemp -d)/local/
       '';
-    });
+    };
+    packages = straight-env.packageList packageOverrides;
 
     # I don't know why but byte-compilation somehow triggers Emacs to look for
     # the git executable. It does not seem to be executed though...

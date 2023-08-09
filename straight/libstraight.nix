@@ -51,6 +51,7 @@ let
   packagesJSON = { emacsInitFile, emacsLoadFiles, emacsArgs }: stdenv.mkDerivation {
     name = "emacs-straight-packages.json";
     buildInputs = [ emacs ];
+    dontUnpack = true;
     buildPhase = ":";
     installPhase = ''
       runHook preInstall

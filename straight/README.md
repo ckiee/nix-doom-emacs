@@ -1,5 +1,7 @@
 # nix-straight.el
 
+*(This was previously in a seperate repository at https://github.com/nix-community/nix-straight.el and has now moved.)*
+
 Low-level Nix integration to [straight.el](https://github.com/raxod502/straight.el)
 
 See [nix-doom-emacs](https://github.com/nix-community/nix-doom-emacs) for a usage example.
