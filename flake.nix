@@ -101,15 +101,17 @@
           };
         };
 
+        # For the GHA dep update CI,
+        # TODO: Actually use it for the usual `nix develop` flow.
         devShells.default = pkgs.mkShell {
           buildInputs =
             [ (pkgs.python3.withPackages (ps: with ps; [ PyGithub ])) ];
         };
 
         package = { ... }@args:
-          pkgs.lib.warn ''
+          throw ''
             nix-doom-emacs no longer supports the deprecated `package` flake output.
-            It will be removed after the release of NixOS 23.05.
+            It was removed after the release of NixOS 23.05.
 
             Please use `packages.${system}.default.override { ... }` instead!
           ''
