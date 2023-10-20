@@ -158,6 +158,7 @@ let
     exit 127
   '';
 
+  # nix-instantiate --show-trace --json --eval --strict --expr 'with import <nixpkgs> {}; (callPackage ./. { doomPrivateDir = ./test/doom.d ;}).passthru.straightRecipes' | jq .
   straightRecipes = lib.importJSON (straight-env.recipesIFD.overrideAttrs
     (super: {
       phases = [ "installPhase" ];

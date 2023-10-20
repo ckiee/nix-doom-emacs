@@ -27,6 +27,15 @@ let
       buildPhase = ":";
       installPhase = ''
         runHook preInstall
+        ; TODO/CONTINUE: Overhaul this, replace n-s-get-used-packages and emacsArgs as
+        ; used in ./default.nix to run a doomscript (or maybe bin/doom shebang, very similar..)
+        ; which dumps everything without hacking into the existing Doom CLI commands.
+        ; Once that's done, we can flush and read straight--recipe-cache for most metadata,
+        ; and also include the commit revs from doom-packages.
+        ;
+        ; I expect network activity for fetching the package metadata only,
+        ; and then fetchFromGithub/fetchurl/… in Nix using the output of this derivation,
+        ; which will be a FOD and is already an IFD. (but will turn into more than a list of packages)
         emacs -q \
               --batch \
               --directory=${epkgs.straight}/share/emacs/site-lisp \
